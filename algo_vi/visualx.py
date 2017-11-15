@@ -9,4 +9,11 @@ import matplotlib
 
 class Visual(object):
 
-    pass
+    def __init__(self, *args, **kw):
+        pass
+
+    
+class ViSort(Visual):
+
+    def __init__(self, *args, **kw):
+        super(ViSort, self).__init__(*args, **kw)
