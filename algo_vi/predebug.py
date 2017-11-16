@@ -58,18 +58,17 @@ def obtain_data(i):
 
     return left, height, base_color
 
-init_data = obtain_data(1)
-bar = plt.bar(left=init_data[0], height=init_data[1], color=init_data[2])
+# init_data = obtain_data(1)
+# bar = plt.bar(left=init_data[0], height=init_data[1], color=init_data[2])
 
 
 def animate(i):
     
-    left, height, color = obtain_data(i+1)
-    for _, b in enumerate(bar):
-        b.set_data(left=left, height=height, color=color)
+    left, height, color = obtain_data(i)
 
-    
-    # return plt.bar(left, height, width=0.8, color=base_color)
+    # for _, b in enumerate(bar):
+    #     b.set_data(left=left, height=height, color=color)
+    return plt.bar(left, height, width=0.8, color=color)
 
 anim = animation.FuncAnimation(fig, animate, frames=frames, interval=1000, blit=True)
 
