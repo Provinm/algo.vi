@@ -15,6 +15,7 @@ def bubble_sort(lst, **kw):
     '''
     func_name = inspect.stack()[0][3]
     kw.update({'sort_lst': lst})
+    kw.setdefault('title', func_name)
     e = Engine(func_name, **kw)
     e.show()
 

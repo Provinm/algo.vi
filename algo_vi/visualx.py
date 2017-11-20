@@ -12,14 +12,32 @@ import abc
 class Visual(object, metaclass=abc.ABCMeta):
 
     def __init__(self, *args, **kw):
-        self.fig = plt.figure()
-        # print(vars(self.fig))
-        self.frames = 200
-        self.interval = 1000
+        # basic matplotlib configuration
+        self.fig, self.ax = plt.subplots()
+        self.kw = kw
 
-    # @abc.abstractmethod
-    # def _animate(self, item):
-    #     '''animate func for animation'''
+        # fig set
+        self._fig_conf()
+
+        # axis set
+        self._axis_conf()
+
+        # basic animation config
+        self.frames = kw.get('frames', 200)
+        self.interval = kw.get('interval', 1000)
+
+    def _fig_conf(self):
+        '''as the method name says'''
+        facecolor = self.kw.get('facecolor', 'white')
+        title = self.kw.get('title', '')
+        self.fig.set_facecolor(facecolor)
+        plt.title(title)
+
+    def _axis_conf(self):
+        '''set axis paras, default is off'''
+        _axis = self.kw.get('axis', 'off')
+        self.ax.axis(_axis)
+
 
 class ViSort(Visual):
 
@@ -32,6 +50,8 @@ class ViSort(Visual):
         
         data = self._data[item]
         height = data.keys()
+        tick_label = data.keys()
+        print(tick_label)
         left = list(range(len(height)))
         base_color = []
         for i in data.values():
@@ -39,8 +59,11 @@ class ViSort(Visual):
                 base_color.append('green')
             else:
                 base_color.append('red')
-        print('left={}, height={}, color={}'.format(left, height, base_color))
-        return plt.bar(left, height, width=0.8, color=base_color)
+        # for x, y in enumerate(height):
+        #     self.ax.text(x, y+5, str(y), ha='center', va='bottom')
+
+        # print('left={}, height={}, color={}'.format(left, height, base_color))
+        return plt.bar(left, height, tick_label=tick_label, color=base_color, animated=True)
 
     def show(self):
         # fig = self.fig
