@@ -42,6 +42,7 @@ frames = len(r)
 
 
 fig = plt.figure()
+print(vars(fig).get('canvas'))
 # ax = plt.axes(xlim=(0,2), ylim=(-2, 2))
 
 

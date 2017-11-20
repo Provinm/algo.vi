@@ -8,9 +8,9 @@
 
 from collections import OrderedDict
 from utils import VaList
+import abc
 
-
-class BaseSort(object):
+class BaseSort(object, metaclass=abc.ABCMeta):
     '''basesort class 
     '''
 
@@ -34,10 +34,17 @@ class BaseSort(object):
 
         return dct
 
+    @abc.abstractmethod
+    def operate(self, reverse=False):
+        ''''''
+
 
 class Bubble(BaseSort):
     
-    def __init__(self, raw_lst):
+    def __init__(self, raw_lst, **kw):
+        # raw_lst = kw.get('sort_list', [])
+        print(raw_lst)
+        self.reverse = kw.get('reverse', False)
         super(Bubble, self).__init__(raw_lst)
 
     def _bubble(self, b_lst, reverse=False):
@@ -63,9 +70,9 @@ class Bubble(BaseSort):
 
         return res
 
-    def operate(self, reverse=False):
+    def operate(self):
         
-        return self._bubble(self.lst, reverse)
+        return self._bubble(self.lst, self.reverse)
 
 
 if __name__ == '__main__':
