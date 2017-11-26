@@ -10,6 +10,8 @@ from collections import OrderedDict
 from utils import VaList
 import abc
 
+from settings import COLOR_MAPPING
+
 class BaseSort(object, metaclass=abc.ABCMeta):
     '''basesort class 
     '''
@@ -17,22 +19,22 @@ class BaseSort(object, metaclass=abc.ABCMeta):
     # MAX_LEN = 10
     lst = VaList()
     def __init__(self, raw_lst):
-        # raw_lst = list(raw_lst)
-        # is_valid = all([isinstance(i, (int, float)) for i in raw_lst])
-        # assert is_valid, 'invalid data provided'
-        # if len(raw_lst) > BaseSort.MAX_LEN:
-        #     print('the lst exceeds max length, automatically intercepts \
-        #            first 10 items')
-        #     raw_lst = raw_lst[:BaseSort.MAX_LEN]
         self.lst = raw_lst
 
     # ordereddict container for O(n^2) sort
     def od_dct(self, ini_idx, match_idx, lst):
-        dct = OrderedDict([(k, False) for k in lst])
-        dct[lst[ini_idx]] = True
-        dct[lst[match_idx]] = True
+        # print(ini_idx, match_idx, lst)
+        tem = []
+        for idx, item in enumerate(lst):
+            level = 'OUT1'
+            if idx == ini_idx:
+                level = 'IN1'
+            elif idx == match_idx:
+                level = 'IN2'
 
-        return dct
+            tem.append((item, COLOR_MAPPING.get(level)))
+        
+        return OrderedDict(tem)
 
     @abc.abstractmethod
     def operate(self, reverse=False):

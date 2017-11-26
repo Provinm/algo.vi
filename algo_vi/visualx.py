@@ -9,6 +9,8 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import abc
 
+from settings import COLOR_MAPPING
+
 class Visual(object, metaclass=abc.ABCMeta):
 
     def __init__(self, *args, **kw):
@@ -35,74 +37,46 @@ class Visual(object, metaclass=abc.ABCMeta):
         plt.title(title)
 
     def _axis_conf(self):
-        '''set axis paras, default is off'''
-        _axis = self.kw.get('axis', 'off')
-        self.ax.axis(_axis)
-
+        '''set axis paras'''
+        self.ax.get_yaxis().set_visible(False)
+        self.ax.set_frame_on(False)
 
 class ViSort(Visual):
 
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
         self._data = kw.get('od', [])  # od --> ordereddict
-        self.frames = len(self._data)
-        # self.bar = plt.bar(range(8), [0]*8)
+        self.frames = range(1, len(self._data))
         
-
     def _ini_animate(self):
+        '''init func for animation'''
         data = self._data[0]
-        height = data.keys()
-        left = list(range(len(height)))
-        base_color = []
-        for i in data.values():
-            if i:
-                base_color.append('green')
-            else:
-                base_color.append('red')
-        self.bar = plt.bar(left, height, color=base_color)
-        self.text = []
-        for patch in self.bar:
-            i = plt.text(patch.get_x(), patch.get_height()+5, str(patch.get_height()))
-            self.text.append(i)
-            # self.text = plt.text()
-        return self.bar
+        length = len(data)
 
+        height = data.keys()
+        left = list(range(length))
+        color = data.values()
+        self.ax.set_xticklabels([0]+list(data.keys()))
+        self.bar = plt.bar(left, height, color=color)
+        return self.bar
 
     def _animate(self, item):
-        
-        data = self._data[item+1]
-        for patch, h, c, t in zip(self.bar, data.keys(), 
-                               data.values(), self.text):
+        '''animation func'''
+        data = self._data[item]
+        for patch, h, c in zip(self.bar, data.keys(), 
+                               data.values()):
             patch.set_height(h)
-            if c:
-                patch.set_color('red')
-
-            else:
-                patch.set_color('green')
-            
-            t.set_text(str(h))
-
+            patch.set_color(c)
+        self.ax.set_xticklabels([0]+list(data.keys()))
         return self.bar
-            
-        # height = data.keys()
-        # tick_label = data.keys()
-        # left = list(range(len(height)))
-        # base_color = []
-        # for i in data.values():
-        #     if i:
-        #         base_color.append('green')
-        #     else:
-        #         base_color.append('red')
-        # print('left={}, height={}, color={}'.format(left, height, base_color))
-        # return plt.bar(left, height, tick_label=tick_label, color=base_color, animated=True)
 
     def show(self):
-        # fig = self.fig
-        # print(self._animate)
+        '''show animation'''
         anis = animation.FuncAnimation(self.fig, 
                                         self._animate, 
                                         init_func=self._ini_animate,
                                         frames=self.frames, 
                                         interval=self.interval,
-                                        blit=True)
+                                        repeat=False
+                                        )
         plt.show()
