@@ -5,7 +5,7 @@
 # description: objs in this file performs like a hub, input a concret algorithm
 #              dispatch it to corresponding visualization method 
 # =================
-from sortx import Bubble, SelectionSort, InsertionSort
+from sortx import Bubble, SelectionSort, InsertionSort, InsertionSort
 from visualx import ViSort
 import abc
 
@@ -18,8 +18,8 @@ class BaseEngine(metaclass=abc.ABCMeta):
 
     MAPPING = {
         'bubble_sort': [Bubble, ViSort],
-        'selection_sort': [SelectionSort, ViSort]
-        
+        'selection_sort': [SelectionSort, ViSort],
+        'insertion_sort': [InsertionSort, ViSort]
     }
     def __init__(self, func_name, **kw):
         

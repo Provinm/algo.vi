@@ -31,7 +31,7 @@ def bubble_sort(lst, **kw):
 def selection_sort(lst, **kw):
     pass
 
-
+@sort_algo
 def insertion_sort(lst, **kw):
     pass
 
@@ -46,5 +46,6 @@ if __name__ == '__main__':
     lst = random.sample(range(100), 8)
     random.shuffle(lst)
 
-    # bubble_sort(lst)
-    selection_sort(lst)
+    # bubble_sort(lst, reverse=True)
+    selection_sort(lst, reverse=True)
+    # insertion_sort(lst)
