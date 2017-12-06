@@ -56,17 +56,17 @@ class Bubble(BaseSort):
         '''
         length = len(b_lst)
         res = []
-        for i in range(length):
-            for j in range(i+1, length):
+        for i in range(length-1):
+            for j in range(length-1-i):
                 
-                res.append(self.od_dct(i, j, b_lst))
-                if b_lst[i] > b_lst[j] and not reverse:
-                    b_lst[i], b_lst[j] = b_lst[j], b_lst[i]
+                res.append(self.od_dct(j, j+1, b_lst))
+                if b_lst[j+1] > b_lst[j] and reverse:
+                    b_lst[j+1], b_lst[j] = b_lst[j], b_lst[j+1]
                 
-                elif b_lst[i] < b_lst[j] and reverse:
-                    b_lst[i], b_lst[j] = b_lst[j], b_lst[i]
+                elif b_lst[j+1] < b_lst[j] and not reverse:
+                    b_lst[j+1], b_lst[j] = b_lst[j], b_lst[j+1]
 
-                res.append(self.od_dct(i, j, b_lst))
+                res.append(self.od_dct(j, j+1, b_lst))
 
         res.append(self.od_dct(-1, -1, b_lst))
         return res
@@ -85,9 +85,9 @@ class SelectionSort(BaseSort):
         for i, item in enumerate(lst):
             level = 'OUT1'
             if i == ini_idx:
-                level = 'IN1'
-            elif i == com_idx:
                 level = 'IN2'
+            elif i == com_idx:
+                level = 'IN1'
             elif i == match_idx:
                 level = 'IN3'
             tem.append((item, COLOR_MAPPING.get(level)))
@@ -106,9 +106,10 @@ class SelectionSort(BaseSort):
                     sp_idx = j 
                 elif s_lst[j] < s_lst[sp_idx] and not reverse:
                     sp_idx = j
-                res.append(self.od_dct(idx, sp_idx, j, s_lst))
+                
             s_lst[idx], s_lst[sp_idx] = s_lst[sp_idx],  s_lst[idx]
-        res.append(self.od_dct(idx, sp_idx, j, s_lst))
+            res.append(self.od_dct(idx, sp_idx, j, s_lst))
+        res.append(self.od_dct(-1, -1, -1, s_lst))
         return res
 
     def operate(self):
@@ -125,7 +126,6 @@ class InsertionSort(BaseSort):
         length = len(i_lst)
         res = []
         for i in range(1, length):
-            
             idx = i
             while idx:
                 res.append(self.od_dct(idx, idx-1, i_lst))
@@ -133,8 +133,9 @@ class InsertionSort(BaseSort):
                     i_lst[idx], i_lst[idx-1] = i_lst[idx-1], i_lst[idx]
                 elif i_lst[idx] > i_lst[idx-1] and reverse:
                     i_lst[idx], i_lst[idx-1] = i_lst[idx-1], i_lst[idx]
+                else:
+                    break
                 res.append(self.od_dct(idx, idx-1, i_lst))
-
                 idx -= 1
         res.append(self.od_dct(-1, -1, i_lst))
         return res
@@ -143,13 +144,41 @@ class InsertionSort(BaseSort):
         return self._insert(self.lst, self.reverse)
 
 
+class QuickSort(BaseSort):
+    
+    def __init__(self, raw_lst, **kw):
+            
+        self.reverse = kw.get('reverse', False)
+        super().__init__(raw_lst)
+
+    def _quick(self, q_lst, reverse=False):
+        
+        if not q_lst or len(q_lst) == 1:
+            return q_lst
+
+        pivot = q_lst[0]
+        left = []
+        right = []
+        for i in q_lst[1:]:
+            if pivot > i:
+                left.append(i)
+            else:
+                right.append(i)
+
+        return self._quick(left, reverse) + [pivot] + self._quick(right, reverse)
+
+    def operate(self):
+        return self._quick(self.lst, self.reverse)
+        
+
+
 if __name__ == '__main__':
     import random
     lst = list(range(1, 6))
     random.shuffle(lst)
     print(lst)
-    bsort = InsertionSort(lst, reverse=True)
+    bsort = QuickSort(lst, reverse=True)
     r = bsort.operate()
     print(r)
-    for i in r:
-        print(i)
+    # for i in r:
+    #     print(i)

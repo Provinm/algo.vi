@@ -6,7 +6,6 @@
 # =================
 
 from engine import Engine
-import inspect
 from functools import wraps
 
 
@@ -46,6 +45,6 @@ if __name__ == '__main__':
     lst = random.sample(range(100), 8)
     random.shuffle(lst)
 
-    # bubble_sort(lst, reverse=True)
-    selection_sort(lst, reverse=True)
-    # insertion_sort(lst)
+    # bubble_sort(lst)
+    # selection_sort(lst)
+    insertion_sort(lst)
