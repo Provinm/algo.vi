@@ -142,35 +142,82 @@ class InsertionSort(BaseSort):
 
     def operate(self):
         return self._insert(self.lst, self.reverse)
-
-
 class QuickSort(BaseSort):
     
     def __init__(self, raw_lst, **kw):
             
         self.reverse = kw.get('reverse', False)
         super().__init__(raw_lst)
+        self.res = []
+
+    def od_dct(self, left, pivot, right, lst):
+        
+        # print('left={}\npivot={}\nright={}\nlst={}'.format(left,pivot,right,lst))
+        # print('='*30)
+        tem = []
+        for idx, item in enumerate(lst):
+            level = 'OUT1'
+            if idx == pivot:
+                level = 'IN1'
+            elif item in left:
+                level = 'IN2'
+            elif item in right:
+                level = 'IN3'
+            tem.append((item, COLOR_MAPPING.get(level)))
+        
+        return OrderedDict(tem)
+        
+    def update_lst(self, b_lst, update_lst):
+        
+        if not b_lst:
+            return 
+        
+        start_item = b_lst[0]
+        start, end = 0, 0
+        for i in range(len(self.lst)):
+            if start_item == self.lst[i]:
+                is_match = True
+                tem_lst = b_lst[1:]
+                idx = i
+                while tem_lst:
+                    idx += 1
+                    if tem_lst.pop(0) == self.lst[idx]:
+                        continue
+                    else:
+                        is_match = False
+                        break
+                if is_match:
+                    start, end = i, idx
+                else:
+                    continue
+
+        self.lst[start:end+1] = update_lst
 
     def _quick(self, q_lst, reverse=False):
         
         if not q_lst or len(q_lst) == 1:
             return q_lst
 
-        pivot = q_lst[0]
+        pivot = 0
         left = []
         right = []
-        for i in q_lst[1:]:
-            if pivot > i:
-                left.append(i)
+        self.res.append(self.od_dct(left, pivot, right, self.lst))
+        for i in range(1,len(q_lst)):
+            if q_lst[pivot] > q_lst[i]:
+                left.append(q_lst[i])
             else:
-                right.append(i)
-
-        return self._quick(left, reverse) + [pivot] + self._quick(right, reverse)
+                right.append(q_lst[i])
+            self.res.append(self.od_dct(left, pivot, right, self.lst))
+        update_lst = left + [q_lst[pivot]] + right
+        # print('update_lst= ', update_lst)
+        self.update_lst(q_lst, update_lst)
+        # print('self.lst=',self.lst)
+        self.res.append(self.od_dct(left, pivot, right, self.lst))
+        return self._quick(left, reverse) + [q_lst[pivot]] + self._quick(right, reverse)
 
     def operate(self):
-        return self._quick(self.lst, self.reverse)
-        
-
+        self._quick(self.lst, self.reverse)
+        return self.res
 
 if __name__ == '__main__':
     import random
@@ -179,6 +226,6 @@ if __name__ == '__main__':
     print(lst)
     bsort = QuickSort(lst, reverse=True)
     r = bsort.operate()
-    print(r)
+    # print(r)
     # for i in r:
     #     print(i)

@@ -5,7 +5,7 @@
 # description: objs in this file performs like a hub, input a concret algorithm
 #              dispatch it to corresponding visualization method 
 # =================
-from sortx import Bubble, SelectionSort, InsertionSort, InsertionSort
+from sortx import Bubble, SelectionSort, InsertionSort, QuickSort
 from visualx import ViSort
 import abc
 
@@ -19,11 +19,13 @@ class BaseEngine(metaclass=abc.ABCMeta):
     MAPPING = {
         'bubble_sort': [Bubble, ViSort],
         'selection_sort': [SelectionSort, ViSort],
-        'insertion_sort': [InsertionSort, ViSort]
+        'insertion_sort': [InsertionSort, ViSort],
+        'quick_sort': [QuickSort, ViSort]
     }
     def __init__(self, func_name, **kw):
         
         self.g_cls, self.v_cls = BaseEngine.MAPPING.get(func_name, [None, None])
+        
         self.ipt = []
         # extract relevant input data
         if func_name.endswith('sort'):
@@ -32,7 +34,6 @@ class BaseEngine(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def show(self):
         ''''''
-
         
 class Engine(BaseEngine):
     '''engine for algo-vi project

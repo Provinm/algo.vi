@@ -34,6 +34,7 @@ def selection_sort(lst, **kw):
 def insertion_sort(lst, **kw):
     pass
 
+@sort_algo
 def quick_sort(lst, **kw):
     pass
 
@@ -42,9 +43,10 @@ def merge_sort(lst, **kw):
 
 if __name__ == '__main__':
     import random
-    lst = random.sample(range(100), 8)
+    lst = random.sample(range(100), 20)
     random.shuffle(lst)
 
     # bubble_sort(lst)
     # selection_sort(lst)
-    insertion_sort(lst)
+    # insertion_sort(lst)
+    quick_sort(lst)
