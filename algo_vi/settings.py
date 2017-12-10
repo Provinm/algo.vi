@@ -14,6 +14,7 @@ COLOR_MAPPING = {
     'IN1': '#e74c3c',
     'IN2': '#1abc9c',
     'IN3': '#2ecc71',
+    'IN4': '#6959CD',
     'OUT1': '#95a5a6',
     'OUT2': '#2c3e50',
     'OUT3': '#7f8c8d'

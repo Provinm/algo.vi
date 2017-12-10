@@ -27,7 +27,7 @@ class Visual(object, metaclass=abc.ABCMeta):
 
         # basic animation config
         self.frames = kw.get('frames', 200)
-        self.interval = kw.get('interval', 500)
+        self.interval = kw.get('interval', 100)
 
     def _fig_conf(self):
         '''as the method name says'''

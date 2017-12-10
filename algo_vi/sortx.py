@@ -34,6 +34,8 @@ class BaseSort(object, metaclass=abc.ABCMeta):
         
         return OrderedDict(tem)
 
+    
+
     @abc.abstractmethod
     def operate(self):
         ''''''
@@ -150,23 +152,6 @@ class QuickSort(BaseSort):
         super().__init__(raw_lst)
         self.res = []
 
-    def od_dct(self, left, pivot, right, lst):
-        
-        # print('left={}\npivot={}\nright={}\nlst={}'.format(left,pivot,right,lst))
-        # print('='*30)
-        tem = []
-        for idx, item in enumerate(lst):
-            level = 'OUT1'
-            if idx == pivot:
-                level = 'IN1'
-            elif item in left:
-                level = 'IN2'
-            elif item in right:
-                level = 'IN3'
-            tem.append((item, COLOR_MAPPING.get(level)))
-        
-        return OrderedDict(tem)
-        
     def update_lst(self, b_lst, update_lst):
         
         if not b_lst:
@@ -193,39 +178,139 @@ class QuickSort(BaseSort):
 
         self.lst[start:end+1] = update_lst
 
+    def od_dct(self, left, pivot, right, lst):
+        
+        pivot = lst.index(pivot)
+        tem = []
+        for idx, item in enumerate(lst):
+            level = 'OUT1'
+            if idx == pivot:
+                level = 'IN1'
+            elif item in left:
+                level = 'IN2'
+            elif item in right:
+                level = 'IN4'
+            tem.append((item, COLOR_MAPPING.get(level)))
+        
+        return OrderedDict(tem)
+
+    def last_item(self, lst):
+        tem = []
+        for i in lst:
+            tem.append((i, COLOR_MAPPING.get('OUT1')))
+
+        return OrderedDict(tem)
+        
     def _quick(self, q_lst, reverse=False):
         
         if not q_lst or len(q_lst) == 1:
             return q_lst
 
-        pivot = 0
+        pivot = q_lst[0]
         left = []
         right = []
         self.res.append(self.od_dct(left, pivot, right, self.lst))
         for i in range(1,len(q_lst)):
-            if q_lst[pivot] > q_lst[i]:
-                left.append(q_lst[i])
+            if not reverse:
+                if pivot > q_lst[i]:
+                    left.append(q_lst[i])
+                else:
+                    right.append(q_lst[i])
             else:
-                right.append(q_lst[i])
+                if pivot > q_lst[i]:
+                    right.append(q_lst[i])
+                else:
+                    left.append(q_lst[i])
             self.res.append(self.od_dct(left, pivot, right, self.lst))
-        update_lst = left + [q_lst[pivot]] + right
-        # print('update_lst= ', update_lst)
+        update_lst = left + [pivot] + right
         self.update_lst(q_lst, update_lst)
-        # print('self.lst=',self.lst)
         self.res.append(self.od_dct(left, pivot, right, self.lst))
-        return self._quick(left, reverse) + [q_lst[pivot]] + self._quick(right, reverse)
+        return self._quick(left, reverse) + [pivot] + self._quick(right, reverse)
 
     def operate(self):
         self._quick(self.lst, self.reverse)
+        self.res.append(self.last_item(self.lst))
         return self.res
+
+class MergeSort(BaseSort):
+    
+    def __init__(self, raw_lst, **kw):
+            
+        self.reverse = kw.get('reverse', False)
+        super().__init__(raw_lst)
+        self.res = []
+
+    def od_dct(self, left, right, res, lst):
+        tem = []
+        for idx, item in enumerate(lst):
+            level = 'OUT1'
+            if item in left:
+                level = 'IN1'
+            elif item in right:
+                level = 'IN3'
+            elif item in res:
+                level = 'IN2'
+
+            tem.append((item, COLOR_MAPPING.get(level)))
+
+        return OrderedDict(tem)
+
+    def update_lst(self, start, end, res):
+        self.lst[start: end] = res
+
+    def merge(self, m_lst, start, end, reverse=False):
+        
+        if len(m_lst) < 2:
+            return m_lst
+
+        mid = len(m_lst) // 2
+        mid_index = (start+end) // 2
+
+        llst = m_lst[:mid]
+        rlst = m_lst[mid:]
+        self.res.append(self.od_dct(llst, rlst, [], self.lst))
+        left = self.merge(llst, start, mid_index, reverse)
+        right = self.merge(rlst,mid_index, end, reverse)
+        self.res.append(self.od_dct(llst, rlst, [], self.lst))
+        # print(left, right)
+        res = []
+        while left and right:
+            l, r = left[0], right[0]
+            if l < r:
+                res.append(l)
+                left.pop(0)
+            else:
+                res.append(r)
+                right.pop(0)
+            self.res.append(self.od_dct(left, right, res, self.lst))
+
+        while left or right:
+            if left:
+                res.append(left.pop(0))
+            else:
+                res.append(right.pop(0))  
+            self.res.append(self.od_dct(left, right, res, self.lst))
+        
+        # print(start, end, res, self.lst)
+        self.update_lst(start, end, res)
+        # print(self.lst)
+        return res
+
+    def operate(self):
+        
+        self.merge(self.lst, 0, len(self.lst), self.reverse)
+        self.res.append(self.od_dct([],[],[],self.lst))
+        return self.res
+
 
 if __name__ == '__main__':
     import random
-    lst = list(range(1, 6))
+    lst = list(range(1, 10))
     random.shuffle(lst)
     print(lst)
-    bsort = QuickSort(lst, reverse=True)
-    r = bsort.operate()
+    # bsort = QuickSort(lst, reverse=True)
+    # r = bsort.operate()
+    mer = MergeSort(lst)
+    # r = mer.merge(lst)
     # print(r)
-    # for i in r:
-    #     print(i)
+    mer.operate()

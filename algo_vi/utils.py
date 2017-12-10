@@ -40,7 +40,7 @@ class Validated(AutoStorage, metaclass=abc.ABCMeta):
 
 class VaList(Validated):
 
-    MAX_LEN = 20
+    MAX_LEN = 100
     def validated(self, instance, value):
 
         lst = list(value)
