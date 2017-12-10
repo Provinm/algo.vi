@@ -259,7 +259,7 @@ class MergeSort(BaseSort):
         self.lst[start: end] = res
 
     def merge(self, m_lst, start, end, reverse=False):
-        
+        # print(m_lst, start, end)
         if len(m_lst) < 2:
             return m_lst
 
@@ -268,11 +268,11 @@ class MergeSort(BaseSort):
 
         llst = m_lst[:mid]
         rlst = m_lst[mid:]
+
         self.res.append(self.od_dct(llst, rlst, [], self.lst))
         left = self.merge(llst, start, mid_index, reverse)
         right = self.merge(rlst,mid_index, end, reverse)
         self.res.append(self.od_dct(llst, rlst, [], self.lst))
-        # print(left, right)
         res = []
         while left and right:
             l, r = left[0], right[0]
@@ -284,6 +284,7 @@ class MergeSort(BaseSort):
                 right.pop(0)
             self.res.append(self.od_dct(left, right, res, self.lst))
 
+        # start = start + len(res)
         while left or right:
             if left:
                 res.append(left.pop(0))
@@ -291,9 +292,8 @@ class MergeSort(BaseSort):
                 res.append(right.pop(0))  
             self.res.append(self.od_dct(left, right, res, self.lst))
         
-        # print(start, end, res, self.lst)
+
         self.update_lst(start, end, res)
-        # print(self.lst)
         return res
 
     def operate(self):
