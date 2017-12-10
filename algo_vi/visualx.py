@@ -39,7 +39,9 @@ class Visual(object, metaclass=abc.ABCMeta):
     def _axis_conf(self):
         '''set axis paras'''
         self.ax.get_yaxis().set_visible(False)
+        self.ax.get_xaxis().set_visible(False)
         self.ax.set_frame_on(False)
+        
 
 class ViSort(Visual):
 
@@ -56,7 +58,7 @@ class ViSort(Visual):
         height = data.keys()
         left = list(range(length))
         color = data.values()
-        self.ax.set_xticklabels([0]+list(data.keys()))
+        # self.ax.set_xticklabels([0]+list(data.keys()))
         self.bar = plt.bar(left, height, color=color)
         return self.bar
 
@@ -67,7 +69,7 @@ class ViSort(Visual):
                                data.values()):
             patch.set_height(h)
             patch.set_color(c)
-        self.ax.set_xticklabels([0]+list(data.keys()))
+        # self.ax.set_xticklabels([0]+list(data.keys()))
         return self.bar
 
     def show(self):

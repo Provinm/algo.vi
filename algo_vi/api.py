@@ -50,5 +50,5 @@ if __name__ == '__main__':
     # bubble_sort(lst)
     # selection_sort(lst)
     # insertion_sort(lst)
-    # quick_sort(lst, reverse=True)
-    merge_sort(lst)
+    quick_sort(lst)
+    # merge_sort(lst, reverse=True)

@@ -276,12 +276,20 @@ class MergeSort(BaseSort):
         res = []
         while left and right:
             l, r = left[0], right[0]
-            if l < r:
-                res.append(l)
-                left.pop(0)
+            if not reverse:
+                if l < r:
+                    res.append(l)
+                    left.pop(0)
+                else:
+                    res.append(r)
+                    right.pop(0)
             else:
-                res.append(r)
-                right.pop(0)
+                if l < r:
+                    res.append(r)
+                    right.pop(0)
+                else:
+                    res.append(l)
+                    left.pop(0)
             self.res.append(self.od_dct(left, right, res, self.lst))
 
         # start = start + len(res)
