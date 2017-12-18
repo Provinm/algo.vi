@@ -5,9 +5,15 @@
 # description: objs in this file performs like a hub, input a concret algorithm
 #              dispatch it to corresponding visualization method 
 # =================
+
+import threading
+
+import pyaudio
 from sortx import Bubble, SelectionSort, InsertionSort, QuickSort, MergeSort
 from visualx import ViSort
 import abc
+from makesound import play_tone
+
 
 class BaseEngine(metaclass=abc.ABCMeta):
     '''base engine for algo-vi project
@@ -46,18 +52,41 @@ class Engine(BaseEngine):
     def __init__(self, func_name, **kw):
         super().__init__(func_name, **kw)
         self.kw = kw
+        self.audio = pyaudio.PyAudio()
 
     def _get_data(self):
         '''implement assigned cls to get data which prepared for visualization'''
-        dt = self.g_cls(self.ipt, **self.kw).operate()
+        dt, tones = self.g_cls(self.ipt, **self.kw).operate()
         return dt
 
-    def _draw_animation(self):
+    def _draw_animation(self, dt):
         '''implement assigned cls to show animation for corresponding algorithm'''
-        dt = self._get_data()
+        # dt = self._get_data()
+        return self.v_cls(od=dt, **self.kw).show()
 
-        return self.v_cls(od=dt, **self.kw)
+    def _play_tone(self, tones):
+        stream = self.audio.open(format=pyaudio.paFloat32,
+                    channels=1, rate=44100, output=1)
+        
+        interval = self.kw.get('interval', 100)
+        interval = interval // 1000
+        fre = tones
+        for f in fre:
+            play_tone(stream, frequency=f)
+
+        stream.close()
+        self.audio.terminate()
+        
 
     def show(self):
         '''visualization'''
-        return self._draw_animation().show()
+        # return self._draw_animation().show()
+        dt, tones = self.g_cls(self.ipt, **self.kw).operate()
+        t1 = threading.Thread(target=self._draw_animation, args=(dt, ))
+        t2 = threading.Thread(target=self._play_tone, args=(tones,))
+
+        t1.start()
+        t2.start()
+
+        t1.join()
+        t2.join()

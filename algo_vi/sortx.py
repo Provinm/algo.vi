@@ -9,8 +9,9 @@
 from collections import OrderedDict
 from utils import VaList
 import abc
+import random
 
-from settings import COLOR_MAPPING
+from settings import COLOR_MAPPING, AUDIO_MAPPING
 
 class BaseSort(object, metaclass=abc.ABCMeta):
     '''basesort class '''
@@ -34,7 +35,11 @@ class BaseSort(object, metaclass=abc.ABCMeta):
         
         return OrderedDict(tem)
 
-    
+    def add_tone(self):
+        
+        values = list(AUDIO_MAPPING.values())
+        # print(values)
+        return random.choice(values)
 
     @abc.abstractmethod
     def operate(self):
@@ -58,10 +63,12 @@ class Bubble(BaseSort):
         '''
         length = len(b_lst)
         res = []
+        tones = []
         for i in range(length-1):
             for j in range(length-1-i):
                 
                 res.append(self.od_dct(j, j+1, b_lst))
+                tones.append(self.add_tone())
                 if b_lst[j+1] > b_lst[j] and reverse:
                     b_lst[j+1], b_lst[j] = b_lst[j], b_lst[j+1]
                 
@@ -69,9 +76,11 @@ class Bubble(BaseSort):
                     b_lst[j+1], b_lst[j] = b_lst[j], b_lst[j+1]
 
                 res.append(self.od_dct(j, j+1, b_lst))
+                tones.append(self.add_tone())
 
         res.append(self.od_dct(-1, -1, b_lst))
-        return res
+        tones.append(self.add_tone())
+        return res, tones
 
     def operate(self):
         

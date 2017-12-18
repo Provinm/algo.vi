@@ -47,8 +47,8 @@ if __name__ == '__main__':
     lst = random.sample(range(1000), 50)
     random.shuffle(lst)
 
-    # bubble_sort(lst)
+    bubble_sort(lst)
     # selection_sort(lst)
     # insertion_sort(lst)
-    quick_sort(lst)
+    # quick_sort(lst, title='quick')
     # merge_sort(lst, reverse=True)
