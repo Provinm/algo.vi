@@ -56,7 +56,7 @@ class Engine(BaseEngine):
 
     def _get_data(self):
         '''implement assigned cls to get data which prepared for visualization'''
-        dt, tones = self.g_cls(self.ipt, **self.kw).operate()
+        dt = self.g_cls(self.ipt, **self.kw).operate()
         return dt
 
     def _draw_animation(self, dt):
@@ -81,12 +81,5 @@ class Engine(BaseEngine):
     def show(self):
         '''visualization'''
         # return self._draw_animation().show()
-        dt, tones = self.g_cls(self.ipt, **self.kw).operate()
-        t1 = threading.Thread(target=self._draw_animation, args=(dt, ))
-        t2 = threading.Thread(target=self._play_tone, args=(tones,))
-
-        t1.start()
-        t2.start()
-
-        t1.join()
-        t2.join()
+        dt = self.g_cls(self.ipt, **self.kw).operate()
+        self._draw_animation(dt)

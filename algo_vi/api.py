@@ -44,11 +44,11 @@ def merge_sort(lst, **kw):
 
 if __name__ == '__main__':
     import random
-    lst = random.sample(range(1000), 50)
+    lst = random.sample(range(500), 500)
     random.shuffle(lst)
 
-    bubble_sort(lst)
+    # bubble_sort(lst)
     # selection_sort(lst)
     # insertion_sort(lst)
     # quick_sort(lst, title='quick')
-    # merge_sort(lst, reverse=True)
+    merge_sort(lst, interval=50)

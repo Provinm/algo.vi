@@ -22,10 +22,11 @@ if __name__ == '__main__':
     # stream = p.open(format=pyaudio.paFloat32,
     #             channels=1, rate=40000, output=1)
     # print(vars(stream))
-    f = [256, 288, 320, 341, 384, 426, 480]
-    # play_tone(stream, frequency=480)
-    for i in f:
-        play_tone(stream, frequency=i*(1.2))
+    # f = [256, 288, 320, 341, 384, 426, 480]
+    # # play_tone(stream, frequency=480)
+    # for i in f:
+    i = 300
+    play_tone(stream, frequency=i)
 
     stream.close()
     p.terminate()
