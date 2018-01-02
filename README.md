@@ -7,8 +7,6 @@
 在使用之前请先检查本地是否存在以下库：
 
 - matplotlib
-- pyaudio
-- numpy
 - fire
 
 requirements.txt 中包含了上述的库
