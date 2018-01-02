@@ -12,7 +12,7 @@ import pyaudio
 from sortx import Bubble, SelectionSort, InsertionSort, QuickSort, MergeSort
 from visualx import ViSort
 import abc
-from makesound import play_tone
+# from makesound import play_tone
 
 
 class BaseEngine(metaclass=abc.ABCMeta):
@@ -64,18 +64,18 @@ class Engine(BaseEngine):
         # dt = self._get_data()
         return self.v_cls(od=dt, **self.kw).show()
 
-    def _play_tone(self, tones):
-        stream = self.audio.open(format=pyaudio.paFloat32,
-                    channels=1, rate=44100, output=1)
+    # def _play_tone(self, tones):
+    #     stream = self.audio.open(format=pyaudio.paFloat32,
+    #                 channels=1, rate=44100, output=1)
         
-        interval = self.kw.get('interval', 100)
-        interval = interval // 1000
-        fre = tones
-        for f in fre:
-            play_tone(stream, frequency=f)
+    #     interval = self.kw.get('interval', 100)
+    #     interval = interval // 1000
+    #     fre = tones
+    #     for f in fre:
+    #         play_tone(stream, frequency=f)
 
-        stream.close()
-        self.audio.terminate()
+    #     stream.close()
+    #     self.audio.terminate()
         
 
     def show(self):
