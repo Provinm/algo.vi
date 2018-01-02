@@ -74,7 +74,7 @@ class Bubble(BaseSort):
             for j in range(length-1-i):
                 
                 res.append(self.od_dct(j, j+1, b_lst))
-                # tones.append(self.add_tone())
+                tones.append(self.add_tone())
                 flag = False
                 if b_lst[j+1] > b_lst[j] and reverse:
                     b_lst[j+1], b_lst[j] = b_lst[j], b_lst[j+1]
@@ -85,11 +85,11 @@ class Bubble(BaseSort):
                     flag = True
 
                 res.append(self.od_dct(j, j+1, b_lst))
-                # tones.append(self.add_tone(flag=flag))
+                tones.append(self.add_tone(flag=flag))
 
         res.append(self.od_dct(-1, -1, b_lst))
-        # tones.append(self.add_tone(tone='do'))
-        return res
+        tones.append(self.add_tone(tone='do'))
+        return res, tones
 
     def operate(self):
         

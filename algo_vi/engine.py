@@ -81,5 +81,9 @@ class Engine(BaseEngine):
     def show(self):
         '''visualization'''
         # return self._draw_animation().show()
-        dt = self.g_cls(self.ipt, **self.kw).operate()
-        self._draw_animation(dt)
+        # dt = self.g_cls(self.ipt, **self.kw).operate()
+        # self._draw_animation(dt)
+        dt, tones = self.g_cls(self.ipt, **self.kw).operate()
+        # self._draw_animation(dt)
+        threading.Thread(target=self._draw_animation, args=(dt,)).start()
+        threading.Thread(target=self._play_tone, args=(tones,)).start()

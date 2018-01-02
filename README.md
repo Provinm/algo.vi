@@ -1,6 +1,7 @@
 # algo.vi 基本排序算法动态可视化
 
 依托 [matplotlib](https://matplotlib.org/) 实现的基本排序算法的动态可视化。
+在 py3 下使用
 
 ### 安装
 
@@ -12,7 +13,6 @@
 - fire
 
 requirements.txt 中包含了上述的库
-
 
 ### 使用
 
