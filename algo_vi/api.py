@@ -12,7 +12,7 @@ from functools import wraps
 # sort algorithm decorator
 def sort_algo(func):
     @wraps(func)
-    def inner(*args, **kw):
+    def inner(lst, **kw):
         func_name = func.__name__
         kw.update({'sort_lst': lst})
         kw.setdefault('title', func_name)
@@ -27,11 +27,11 @@ def bubble_sort(lst, **kw):
     pass
 
 @sort_algo
-def selection_sort(lst, **kw):
+def select_sort(lst, **kw):
     pass
 
 @sort_algo
-def insertion_sort(lst, **kw):
+def insert_sort(lst, **kw):
     pass
 
 @sort_algo
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     random.shuffle(lst)
 
     # bubble_sort(lst)
-    # selection_sort(lst)
-    # insertion_sort(lst)
+    # select_sort(lst)
+    # insert_sort(lst)
     # quick_sort(lst, title='quick')
     merge_sort(lst, interval=50)
