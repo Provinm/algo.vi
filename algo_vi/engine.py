@@ -12,7 +12,6 @@ import pyaudio
 from sortx import Bubble, SelectionSort, InsertionSort, QuickSort, MergeSort
 from visualx import ViSort
 import abc
-# from makesound import play_tone
 
 
 class BaseEngine(metaclass=abc.ABCMeta):
