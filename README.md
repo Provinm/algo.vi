@@ -81,9 +81,10 @@ $ python start.py sortex quick_sort --title='quick'
 
 ```
 
-
 #### 使用提供的 api 
 
 除了提供命令行工具之外，本项目也提供了 api 支持
 
-进入 algo_vi 文件夹中的 api.py，查看相关用法。
+进入 algo_vi 文件夹中的 api.py，查看相关函数接口。
+
+
