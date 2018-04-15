@@ -21,8 +21,8 @@ class BaseEngine(metaclass=abc.ABCMeta):
 
     MAPPING = {
         'bubble_sort': [Bubble, ViSort],
-        'selection_sort': [SelectionSort, ViSort],
-        'insertion_sort': [InsertionSort, ViSort],
+        'select_sort': [SelectionSort, ViSort],
+        'insert_sort': [InsertionSort, ViSort],
         'quick_sort': [QuickSort, ViSort],
         'merge_sort': [MergeSort, ViSort],
     }
