@@ -49,7 +49,7 @@ class Engine(BaseEngine):
     def __init__(self, func_name, **kw):
         super().__init__(func_name, **kw)
         self.kw = kw
-        self.audio = pyaudio.PyAudio()
+        # self.audio = pyaudio.PyAudio()
 
     def _get_data(self):
         '''implement assigned cls to get data which prepared for visualization'''

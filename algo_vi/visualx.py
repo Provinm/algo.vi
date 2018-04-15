@@ -10,6 +10,10 @@ from matplotlib import animation
 import abc
 
 from settings import COLOR_MAPPING
+# plt.rcParams['animation.ffmpeg_path'] = "C:\Program Files\ImageMagick-7.0.7-Q16/ffmpeg.exe"
+# plt.rcParams['animation.convert_path'] = "C:\Program Files\ImageMagick-7.0.7-Q16/magick.exe"
+# plt.rcParams['animation.ffmpeg_args'] = '-report'
+# plt.rcParams['animation.bitrate'] = 2000
 
 class Visual(object, metaclass=abc.ABCMeta):
 
@@ -81,4 +85,7 @@ class ViSort(Visual):
                                         interval=self.interval,
                                         repeat=False
                                         )
+
+
+        # anis.save("a.gif", writer='imagemagick', fps=60, bitrate=-1)
         plt.show()
