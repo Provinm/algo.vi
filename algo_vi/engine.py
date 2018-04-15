@@ -7,8 +7,6 @@
 # =================
 
 import threading
-
-import pyaudio
 from sortx import Bubble, SelectionSort, InsertionSort, QuickSort, MergeSort
 from visualx import ViSort
 import abc
