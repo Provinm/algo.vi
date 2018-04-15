@@ -17,14 +17,23 @@ requirements.txt 中包含了上述的库
 目前本项目仅提供了以下排序算法
 
 - 冒泡排序
+
 ![bubble_sort](./gifs/bubble_sort.gif)
+
 - 选择排序
+
 ![select_sort](./gifs/select_sort.gif)
+
 - 插入排序
+
 ![insert_sort](./gifs/insert_sort.gif)
+
 - 快排
+
 ![quick_sort](./gifs/quick_sort.gif)
+
 - 归并排序
+
 ![merge_sort](./gifs/merge_sort.gif)
 
 之后是否继续扩展视情况而定。
